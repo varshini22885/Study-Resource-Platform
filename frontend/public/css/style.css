@@ -426,9 +426,9 @@ a:hover {
         z-index: 998;
     }
 
-    /* Keep dashboard user-menu (avatar) always visible in navbar */
+    /* Hide dashboard avatar + name on mobile — hamburger is enough */
     .user-menu.dashboard-user-menu {
-        display: flex !important;
+        display: none !important;
     }
 
     .hamburger {
