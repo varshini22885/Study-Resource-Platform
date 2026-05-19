@@ -176,7 +176,7 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 1rem 0;
+    padding: 0.55rem 0;
 }
 
 .navbar-container {
@@ -189,16 +189,26 @@ a:hover {
 }
 
 .navbar-brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-size: 1.5rem;
+    gap: 8px;
+    font-size: 1.35rem;
     font-weight: 700;
     color: var(--dark-color);
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .navbar-brand i {
+    font-size: 1.35rem;
     color: var(--primary-color);
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.navbar-brand span {
+    vertical-align: middle;
+    line-height: 1;
 }
 
 .nav-menu {
@@ -788,7 +798,7 @@ a:hover {
     color: white;
     padding: 20px 0;
     z-index: 900;
-    margin-top: 70px;
+    margin-top: 56px;
     overflow-y: auto;
 }
 
@@ -838,9 +848,9 @@ a:hover {
 
 .main-content {
     margin-left: 250px;
-    margin-top: 70px;
+    margin-top: 56px;
     padding: 40px 20px;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 56px);
 }
 
 .dashboard-header {
@@ -1238,10 +1248,10 @@ a:hover {
     .sidebar {
         position: fixed;
         left: -280px;
-        top: 70px;
+        top: 56px;
         transition: left 0.3s ease;
         width: 260px;
-        height: calc(100vh - 70px);
+        height: calc(100vh - 56px);
         z-index: 950;
         margin-top: 0;
         overflow-y: auto;
@@ -1258,7 +1268,7 @@ a:hover {
         inset: 0;
         background: rgba(0, 0, 0, 0.45);
         z-index: 940;
-        top: 70px;
+        top: 56px;
     }
 
     .sidebar-overlay.active {
@@ -1271,7 +1281,7 @@ a:hover {
 
     .main-content {
         margin-left: 0;
-        margin-top: 70px;
+        margin-top: 56px;
         padding: 20px 15px;
     }
 
