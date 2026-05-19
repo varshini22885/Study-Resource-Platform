@@ -2,7 +2,7 @@
 // TODO: Replace 'your-backend-app.onrender.com' with your actual Render backend URL after deploying
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5000/api'
-    : 'https://your-backend-app.onrender.com/api';
+    : 'https://study-resource-platform.onrender.com/api';
 
 // Helper function to make API calls
 async function apiCall(endpoint, method = 'GET', data = null, includeAuth = true) {
@@ -22,7 +22,7 @@ async function apiCall(endpoint, method = 'GET', data = null, includeAuth = true
 
     try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
-        
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error?.message || `HTTP error! status: ${response.status}`);
