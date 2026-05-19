@@ -396,11 +396,13 @@ a:hover {
         display: flex;
     }
 
-    .user-menu {
+    /* On index.html: hide user-menu until hamburger opens it */
+    /* On dashboard.html: always show user-menu (avatar/name in navbar) */
+    .user-menu:not(.dashboard-user-menu) {
         display: none !important;
     }
 
-    .user-menu.active {
+    .user-menu:not(.dashboard-user-menu).active {
         display: flex !important;
         position: absolute;
         top: calc(100% + 110px);
@@ -412,6 +414,11 @@ a:hover {
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         justify-content: flex-start;
         z-index: 998;
+    }
+
+    /* Keep dashboard user-menu (avatar) always visible in navbar */
+    .user-menu.dashboard-user-menu {
+        display: flex !important;
     }
 
     .hamburger {
@@ -1230,16 +1237,32 @@ a:hover {
 @media (max-width: 768px) {
     .sidebar {
         position: fixed;
-        left: -250px;
+        left: -280px;
+        top: 70px;
         transition: left 0.3s ease;
-        width: 250px;
-        height: 100vh;
+        width: 260px;
+        height: calc(100vh - 70px);
         z-index: 950;
         margin-top: 0;
+        overflow-y: auto;
     }
 
     .sidebar.active {
         left: 0;
+    }
+
+    /* Dark overlay backdrop when sidebar is open on mobile */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 940;
+        top: 70px;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
     }
 
     .close-sidebar {

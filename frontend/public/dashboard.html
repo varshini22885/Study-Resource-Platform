@@ -29,7 +29,7 @@
             </div>
 
             <div class="navbar-right">
-                <div class="user-menu" id="userMenu">
+                <div class="user-menu dashboard-user-menu" id="userMenu">
                     <div class="user-info dropdown-trigger" onclick="toggleDropdown()" style="cursor: pointer;">
                         <div id="userAvatarContainer" class="avatar-container">
                             <img id="userProfilePic" src="" alt="Profile" class="profile-pic" style="display: none;">
@@ -72,6 +72,9 @@
             </a>
         </nav>
     </div>
+
+    <!-- Sidebar overlay for mobile (tap to close) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
     <!-- Main Content -->
     <main class="main-content">

@@ -447,6 +447,10 @@ function showTab(tabName, clickedElement) {
         if (hamburger) {
             hamburger.classList.remove('active');
         }
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) {
+            overlay.classList.remove('active');
+        }
     }
 }
 

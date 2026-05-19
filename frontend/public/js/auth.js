@@ -316,11 +316,19 @@ function toggleSidebar() {
     if (sidebar) {
         const isActive = sidebar.classList.toggle('active');
         const hamburger = document.getElementById('hamburger');
+        const overlay = document.getElementById('sidebarOverlay');
         if (hamburger) {
             if (isActive) {
                 hamburger.classList.add('active');
             } else {
                 hamburger.classList.remove('active');
+            }
+        }
+        if (overlay) {
+            if (isActive) {
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
             }
         }
     }
