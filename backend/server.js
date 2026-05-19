@@ -72,9 +72,7 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'Server is running',
-    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
-    dbError: mongoose.connection.readyState === 1 ? null : dbError,
-    envKeys: Object.keys(process.env).filter(key => key.includes('MONGO') || key.includes('URI'))
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
   });
 });
 
