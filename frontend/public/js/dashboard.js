@@ -8,36 +8,36 @@ function extractVideoId(url) {
             console.warn('No URL provided to extractVideoId');
             return null;
         }
-        
+
         console.log('Extracting video ID from:', url);
-        
+
         // Handle youtu.be format: https://youtu.be/VIDEO_ID or https://youtu.be/VIDEO_ID?t=...
         if (url.includes('youtu.be/')) {
             const videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0].split('#')[0];
             console.log('Extracted from youtu.be:', videoId);
             return videoId.trim();
         }
-        
+
         // Handle youtube.com/watch format: https://www.youtube.com/watch?v=VIDEO_ID
         if (url.includes('watch?v=')) {
             const videoId = url.split('watch?v=')[1].split('&')[0].split('#')[0];
             console.log('Extracted from watch?v=:', videoId);
             return videoId.trim();
         }
-        
+
         // Handle youtube.com/embed format (already in embed format)
         if (url.includes('/embed/')) {
             const videoId = url.split('/embed/')[1].split('?')[0].split('#')[0];
             console.log('Extracted from /embed/:', videoId);
             return videoId.trim();
         }
-        
+
         // If it's just a video ID
         if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
             console.log('URL is already a video ID:', url);
             return url;
         }
-        
+
         console.warn('Could not extract video ID from:', url);
         return null;
     } catch (error) {
@@ -50,32 +50,32 @@ function extractVideoId(url) {
 function convertToYouTubeWatchUrl(url) {
     try {
         if (!url) return null;
-        
+
         console.log('Converting URL:', url);
-        
+
         // If already a full watch URL, return as is
         if (url.includes('youtube.com/watch?v=')) {
             console.log('Already a watch URL');
             return url;
         }
-        
+
         // If it's a youtu.be link, convert to watch format
         if (url.includes('youtu.be/')) {
             const videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0].split('#')[0];
             return `https://www.youtube.com/watch?v=${videoId}`;
         }
-        
+
         // If it's an embed link, extract ID and convert
         if (url.includes('/embed/')) {
             const videoId = url.split('/embed/')[1].split('?')[0].split('#')[0];
             return `https://www.youtube.com/watch?v=${videoId}`;
         }
-        
+
         // If it's just a video ID (11 characters, alphanumeric with dashes/underscores)
         if (/^[a-zA-Z0-9_-]{11}$/.test(url.trim())) {
             return `https://www.youtube.com/watch?v=${url.trim()}`;
         }
-        
+
         // Return as is if we can't convert
         return url;
     } catch (error) {
@@ -88,16 +88,16 @@ function convertToYouTubeWatchUrl(url) {
 function playVideoInModal(url) {
     try {
         console.log('Opening video URL:', url);
-        
+
         if (!url) {
             showToast('No video URL provided', 'error');
             return;
         }
-        
+
         // Convert to proper YouTube watch URL if needed
         const videoUrl = convertToYouTubeWatchUrl(url);
         console.log('Final video URL:', videoUrl);
-        
+
         // Open directly like a web link
         window.open(videoUrl, '_blank');
     } catch (error) {
@@ -126,7 +126,7 @@ function toggleSubjectInput() {
     const subjectSelect = document.getElementById('subject');
     const customSubjectGroup = document.getElementById('customSubjectGroup');
     const customSubject = document.getElementById('customSubject');
-    
+
     if (subjectSelect.value === 'Other') {
         customSubjectGroup.style.display = 'block';
         customSubject.required = true;
@@ -356,7 +356,7 @@ async function approveResource(resourceId) {
     try {
         if (confirm('Approve this resource?')) {
             const response = await apiCall(`/resources/${resourceId}/approve`, 'PUT');
-            
+
             if (response.success) {
                 showToast('Resource approved successfully', 'success');
                 loadUserStats();
@@ -405,7 +405,7 @@ function submitReject(resourceId) {
 async function rejectResource(resourceId, reason) {
     try {
         const response = await apiCall(`/resources/${resourceId}/reject`, 'PUT', { reason });
-        
+
         if (response.success) {
             showToast('Resource rejected', 'success');
             loadUserStats();
@@ -600,9 +600,9 @@ async function handleUploadForm(e) {
     try {
         console.log('📡 Sending upload request to /resources/upload');
         const response = await apiUpload('/resources/upload', formData);
-        
+
         console.log('✅ Upload response:', response);
-        
+
         if (response.success) {
             showToast('Resource uploaded successfully! Awaiting admin approval.', 'success');
             document.getElementById('uploadForm').reset();

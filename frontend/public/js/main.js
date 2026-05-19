@@ -73,7 +73,7 @@ async function handleResourceAccess(resourceId) {
     try {
         // Check authentication status
         const response = await apiCall('/auth/status', 'GET', null, false);
-        
+
         if (!response.authenticated) {
             openLoginModal();
             return;
@@ -90,8 +90,15 @@ async function handleResourceAccess(resourceId) {
 // Download resource
 async function downloadResource(resourceId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/resources/${resourceId}/download`, {
+        const headers = {};
+        const token = localStorage.getItem('token');
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/resources/${resourceId}/download`, {
             method: 'GET',
+            headers,
             credentials: 'include'
         });
 
@@ -131,36 +138,36 @@ function extractVideoId(url) {
             console.warn('No URL provided to extractVideoId');
             return null;
         }
-        
+
         console.log('Extracting video ID from:', url);
-        
+
         // Handle youtu.be format: https://youtu.be/VIDEO_ID or https://youtu.be/VIDEO_ID?t=...
         if (url.includes('youtu.be/')) {
             const videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0].split('#')[0];
             console.log('Extracted from youtu.be:', videoId);
             return videoId.trim();
         }
-        
+
         // Handle youtube.com/watch format: https://www.youtube.com/watch?v=VIDEO_ID
         if (url.includes('watch?v=')) {
             const videoId = url.split('watch?v=')[1].split('&')[0].split('#')[0];
             console.log('Extracted from watch?v=:', videoId);
             return videoId.trim();
         }
-        
+
         // Handle youtube.com/embed format (already in embed format)
         if (url.includes('/embed/')) {
             const videoId = url.split('/embed/')[1].split('?')[0].split('#')[0];
             console.log('Extracted from /embed/:', videoId);
             return videoId.trim();
         }
-        
+
         // If it's just a video ID
         if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
             console.log('URL is already a video ID:', url);
             return url;
         }
-        
+
         console.warn('Could not extract video ID from:', url);
         return null;
     } catch (error) {
@@ -173,32 +180,32 @@ function extractVideoId(url) {
 function convertToYouTubeWatchUrl(url) {
     try {
         if (!url) return null;
-        
+
         console.log('Converting URL:', url);
-        
+
         // If already a full watch URL, return as is
         if (url.includes('youtube.com/watch?v=')) {
             console.log('Already a watch URL');
             return url;
         }
-        
+
         // If it's a youtu.be link, convert to watch format
         if (url.includes('youtu.be/')) {
             const videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0].split('#')[0];
             return `https://www.youtube.com/watch?v=${videoId}`;
         }
-        
+
         // If it's an embed link, extract ID and convert
         if (url.includes('/embed/')) {
             const videoId = url.split('/embed/')[1].split('?')[0].split('#')[0];
             return `https://www.youtube.com/watch?v=${videoId}`;
         }
-        
+
         // If it's just a video ID (11 characters, alphanumeric with dashes/underscores)
         if (/^[a-zA-Z0-9_-]{11}$/.test(url.trim())) {
             return `https://www.youtube.com/watch?v=${url.trim()}`;
         }
-        
+
         // Return as is if we can't convert
         return url;
     } catch (error) {
@@ -211,16 +218,16 @@ function convertToYouTubeWatchUrl(url) {
 function playVideoInModal(url) {
     try {
         console.log('Opening video URL:', url);
-        
+
         if (!url) {
             showToast('No video URL provided', 'error');
             return;
         }
-        
+
         // Convert to proper YouTube watch URL if needed
         const videoUrl = convertToYouTubeWatchUrl(url);
         console.log('Final video URL:', videoUrl);
-        
+
         // Open directly like a web link
         window.open(videoUrl, '_blank');
     } catch (error) {
@@ -234,14 +241,14 @@ async function openResourceDetail(resourceId) {
     try {
         // Check authentication
         const authResponse = await apiCall('/auth/status', 'GET', null, false);
-        
+
         if (!authResponse.authenticated) {
             openLoginModal();
             return;
         }
 
         const response = await apiCall(`/resources/${resourceId}`, 'GET');
-        
+
         if (response.success) {
             displayResourceDetail(response.resource);
         }
@@ -260,7 +267,7 @@ function displayResourceDetail(resource) {
     const isPdf = resource.type === 'pdf';
     const isVideo = resource.type === 'video';
     const isLink = resource.type === 'link';
-    
+
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.innerHTML = `
@@ -309,7 +316,7 @@ function filterResources() {
 async function loadFilteredResources(subject = '', type = '', search = '') {
     try {
         let endpoint = '/resources/approved?';
-        
+
         if (subject) endpoint += `subject=${subject}&`;
         if (type) endpoint += `type=${type}&`;
         if (search) endpoint += `search=${search}&`;

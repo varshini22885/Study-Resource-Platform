@@ -74,14 +74,14 @@ mongoose.connect(connectionString, {
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of hanging
 })
-.then(() => {
-  console.log('✅ MongoDB connected successfully');
-  dbError = null;
-})
-.catch(err => {
-  console.error('❌ MongoDB connection error:', err);
-  dbError = err.message;
-});
+  .then(() => {
+    console.log('✅ MongoDB connected successfully');
+    dbError = null;
+  })
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err);
+    dbError = err.message;
+  });
 
 // Routes
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -91,8 +91,8 @@ app.use('/api/users', require('./routes/users'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     message: 'Server is running',
     database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
     dbName: mongoose.connection.name,
