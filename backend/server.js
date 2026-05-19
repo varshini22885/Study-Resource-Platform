@@ -44,8 +44,10 @@ require('./config/passport');
 
 let dbError = null;
 
+const connectionString = (process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/study_platform').trim();
+
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/study_platform', {
+mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
