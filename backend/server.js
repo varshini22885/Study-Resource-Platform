@@ -100,19 +100,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.get('/api/debug-users', async (req, res) => {
-  try {
-    const User = require('./models/User');
-    const users = await User.find({});
-    res.json({
-      count: users.length,
-      users: users.map(u => ({ name: u.name, email: u.email, role: u.role }))
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
