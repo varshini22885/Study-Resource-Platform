@@ -77,7 +77,7 @@
             <h1>Share Knowledge, Empower Learning</h1>
             <p>A centralized platform for students to download and review study materials</p>
             <div class="hero-buttons">
-                <button onclick="openLoginModal()" class="btn btn-primary">
+                <button id="heroSignInBtn" onclick="openLoginModal()" class="btn btn-primary">
                     Sign In
                 </button>
                 <a href="#resources" class="btn btn-secondary">Browse Resources</a>
@@ -211,6 +211,10 @@
                         autocomplete="name">
                     <input type="password" id="registerPassword" class="auth-input" placeholder="Create a password"
                         autocomplete="new-password">
+                    <p style="font-size: 0.8rem; color: #e74c3c; background-color: #fdf2f2; border-left: 3px solid #e74c3c; padding: 8px 12px; border-radius: 4px; margin: 10px 0; text-align: left; line-height: 1.4;">
+                        <i class="fas fa-circle-info" style="color: #e74c3c; margin-right: 5px;"></i>
+                        <strong>Important Note:</strong> Please set a simple password you will remember. Since this platform is serverless-lite, **there is no password recovery feature** if you lose it.
+                    </p>
                     <input type="hidden" id="registerRole" value="user">
                     <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
                         Creating account as: <strong>User</strong>

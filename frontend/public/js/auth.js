@@ -228,9 +228,15 @@ async function checkAuthStatus() {
 function updateNavbarForLoggedIn(user) {
     const authMenu = document.getElementById('authMenu');
     const userMenu = document.getElementById('userMenu');
+    const heroSignInBtn = document.getElementById('heroSignInBtn');
 
     if (authMenu) {
         authMenu.style.display = 'none';
+    }
+
+    if (heroSignInBtn) {
+        heroSignInBtn.textContent = 'Go to Dashboard';
+        heroSignInBtn.setAttribute('onclick', "window.location.href='dashboard.html'");
     }
 
     if (userMenu) {
@@ -258,9 +264,15 @@ function updateNavbarForLoggedIn(user) {
 function updateNavbarForGuest() {
     const authMenu = document.getElementById('authMenu');
     const userMenu = document.getElementById('userMenu');
+    const heroSignInBtn = document.getElementById('heroSignInBtn');
 
     if (authMenu) {
         authMenu.style.display = 'block';
+    }
+
+    if (heroSignInBtn) {
+        heroSignInBtn.textContent = 'Sign In';
+        heroSignInBtn.setAttribute('onclick', 'openLoginModal()');
     }
 
     if (userMenu) {
