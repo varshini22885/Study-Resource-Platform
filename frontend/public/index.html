@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Resource Sharing Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="navbar-header">
+                    <a href="index.html" class="navbar-brand">
+                        <i class="fas fa-book-open"></i>
+                        <span>Student Hub</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="navbar-center">
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#resources" class="nav-link">Resources</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="navbar-right">
+                <div id="authMenu">
+                    <a href="javascript:void(0)" onclick="openLoginModal()" class="nav-link login-btn">
+                        Sign In
+                    </a>
+                </div>
+
+                <!-- User Menu (Hidden by default) -->
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <div class="user-info dropdown-trigger" onclick="toggleDropdown()" style="cursor: pointer;">
+                        <div id="userAvatarContainer" class="avatar-container">
+                            <img id="userProfilePic" src="" alt="Profile" class="profile-pic" style="display: none;">
+                            <div id="defaultAvatarIcon" class="default-avatar"><i class="fas fa-user"></i></div>
+                        </div>
+                        <span id="userName" class="user-name-text"></span>
+                        <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: #666; margin-left: 5px;"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-th-large"></i> Dashboard
+                        </a>
+                        <a href="javascript:void(0)" onclick="logout()" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hamburger Menu -->
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Share Knowledge, Empower Learning</h1>
+            <p>A centralized platform for students to download and review study materials</p>
+            <div class="hero-buttons">
+                <button onclick="openLoginModal()" class="btn btn-primary">
+                    Sign In
+                </button>
+                <a href="#resources" class="btn btn-secondary">Browse Resources</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Choose Us?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3>Easy Upload</h3>
+                <p>Upload PDFs, notes, and video links in seconds</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Quality Control</h3>
+                <p>All resources are reviewed by admins for quality</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Secure Access</h3>
+                <p>Login-based access ensures content security</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Easy Discovery</h3>
+                <p>Search and filter by subject and resource type</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-section" id="resources">
+        <div class="container">
+            <h2>Available Resources</h2>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="subjectFilter">Subject:</label>
+                    <select id="subjectFilter" onchange="filterResources()">
+                        <option value="">All Subjects</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="English">English</option>
+                        <option value="History">History</option>
+                        <option value="Geography">Geography</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="English">Others</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="typeFilter">Type:</label>
+                    <select id="typeFilter" onchange="filterResources()">
+                        <option value="">All Types</option>
+                        <option value="pdf">PDF</option>
+                        <option value="video">Video</option>
+                        <option value="link">Web Link</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="searchInput">Search:</label>
+                    <input type="text" id="searchInput" placeholder="Search resources..." onkeyup="filterResources()">
+                </div>
+            </div>
+
+            <!-- Resources Grid -->
+            <div class="resources-grid" id="resourcesGrid">
+                <!-- Resources will be loaded here -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading resources...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Prompt Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+            <div class="modal-body">
+                <div id="authStepEmail" class="auth-step active">
+                    <i class="fas fa-lock" style="font-size: 48px; color: #3498db; margin-bottom: 20px;"></i>
+                    <h2>Sign in</h2>
+                    <p>Enter your email to continue.</p>
+                    <input type="email" id="authEmail" class="auth-input" placeholder="Enter your email"
+                        autocomplete="email">
+                    <button onclick="continueWithEmail()" class="btn btn-primary"
+                        style="width: 100%; margin-top: 12px;">
+                        Continue
+                    </button>
+                </div>
+
+                <div id="authStepPassword" class="auth-step" style="display: none;">
+                    <i class="fas fa-shield-halved" style="font-size: 48px; color: #3498db; margin-bottom: 20px;"></i>
+                    <h2>Enter Password</h2>
+                    <p id="loginEmailLabel"></p>
+                    <input type="password" id="loginPassword" class="auth-input" placeholder="Enter your password"
+                        autocomplete="current-password">
+                    <div class="auth-actions-row">
+                        <button onclick="goBackToEmail()" class="btn btn-secondary auth-action-btn">Back</button>
+                        <button onclick="submitLogin()" class="btn btn-primary auth-action-btn">Sign In</button>
+                    </div>
+                </div>
+
+                <div id="authStepRegister" class="auth-step" style="display: none;">
+                    <i class="fas fa-user-plus" style="font-size: 48px; color: #3498db; margin-bottom: 20px;"></i>
+                    <h2>Create Account</h2>
+                    <p id="registerEmailLabel"></p>
+                    <input type="text" id="registerName" class="auth-input" placeholder="Name (optional)"
+                        autocomplete="name">
+                    <input type="password" id="registerPassword" class="auth-input" placeholder="Create a password"
+                        autocomplete="new-password">
+                    <input type="hidden" id="registerRole" value="user">
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+                        Creating account as: <strong>User</strong>
+                    </p>
+                    <div class="auth-actions-row">
+                        <button onclick="goBackToEmail()" class="btn btn-secondary auth-action-btn">Back</button>
+                        <button onclick="submitRegistration()" class="btn btn-primary auth-action-btn">Create
+                            Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Study Resource Sharing Platform. All rights reserved.</p>
+            <p>Built with <i class="fas fa-heart"></i> for students</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js?v=8"></script>
+</body>
+
+</html>

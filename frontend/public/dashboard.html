@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Resource Sharing Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="navbar-header">
+                    <a href="index.html" class="navbar-brand">
+                        <i class="fas fa-book-open"></i>
+                        <span>Student Hub</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="index.html#resources" class="nav-link">Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="navbar-right">
+                <div class="user-menu" id="userMenu">
+                    <div class="user-info dropdown-trigger" onclick="toggleDropdown()" style="cursor: pointer;">
+                        <div id="userAvatarContainer" class="avatar-container">
+                            <img id="userProfilePic" src="" alt="Profile" class="profile-pic" style="display: none;">
+                            <div id="defaultAvatarIcon" class="default-avatar"><i class="fas fa-user"></i></div>
+                        </div>
+                        <span id="userName" class="user-name-text"></span>
+                        <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: #666; margin-left: 5px;"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="dashboard.html" class="dropdown-item"><i class="fas fa-th-large"></i> Dashboard</a>
+                        <a href="javascript:void(0)" onclick="logout()" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Dashboard</h3>
+            <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="javascript:void(0)" onclick="showTab('overview', this)" class="sidebar-link active">
+                <i class="fas fa-chart-pie"></i><span>Overview</span>
+            </a>
+            <a href="javascript:void(0)" onclick="showTab('upload', this)" class="sidebar-link" id="uploadTab">
+                <i class="fas fa-cloud-upload-alt"></i><span>Upload Resource</span>
+            </a>
+            <a href="javascript:void(0)" onclick="showTab('my-uploads', this)" class="sidebar-link" id="myUploadsTab">
+                <i class="fas fa-file-upload"></i><span>My Uploads</span>
+            </a>
+            <a href="javascript:void(0)" onclick="showTab('moderate', this)" class="sidebar-link" id="moderateTab" style="display: none;">
+                <i class="fas fa-user-shield"></i><span>Moderate Resources</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="tab-content" id="overviewTab">
+                <div class="dashboard-header">
+                    <h1>Welcome, <span id="welcomeName"></span>!</h1>
+                    <p id="roleInfo"></p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-file-pdf"></i></div>
+                        <div class="stat-info"><h3 id="totalUploads">0</h3><p>Total Uploads</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info"><h3 id="approvedCount">0</h3><p>Approved Resources</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info"><h3 id="pendingCount">0</h3><p>Pending Review</p></div>
+                    </div>
+                    <div class="stat-card" id="moderationCard" style="display: none;">
+                        <div class="stat-icon"><i class="fas fa-inbox"></i></div>
+                        <div class="stat-info"><h3 id="pendingModeration">0</h3><p>Awaiting Moderation</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="uploadSectionTab" style="display: none;">
+                <div class="dashboard-header"><h1>Upload Resource</h1><p>Share educational content with the community</p></div>
+                <div class="card">
+                    <form id="uploadForm">
+                        <div class="form-group"><label for="title">Resource Title *</label><input type="text" id="title" placeholder="e.g., Mathematics Cheat Sheet" required></div>
+                        <div class="form-group"><label for="description">Description</label><textarea id="description" placeholder="Describe the resource..."></textarea></div>
+                        <div class="form-group"><label for="subject">Subject *</label><select id="subject" required onchange="toggleSubjectInput()"><option value="">Select a subject</option><option value="Mathematics">Mathematics</option><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Biology">Biology</option><option value="English">English</option><option value="History">History</option><option value="Geography">Geography</option><option value="Economics">Economics</option><option value="Computer Science">Computer Science</option><option value="Other">Other</option></select></div>
+                        <div class="form-group" id="customSubjectGroup" style="display: none;"><label for="customSubject">Enter Subject *</label><input type="text" id="customSubject" placeholder="e.g., Psychology"></div>
+                        <div class="form-group"><label for="type">Resource Type *</label><select id="type" required onchange="toggleFileInput()"><option value="">Select type</option><option value="pdf">PDF</option><option value="video">Video Link</option><option value="link">Web Link</option></select></div>
+                        <div class="form-group" id="fileInputGroup" style="display: none;"><label for="file">Upload PDF File *</label><div id="fileUploadArea" class="file-upload-area" role="button" tabindex="0"><i class="fas fa-cloud-upload-alt"></i><p id="fileUploadText">Click to upload or drag and drop a PDF here</p><p style="font-size: 0.85rem; color: #999;" id="fileUploadStatus">PDF only, max 50 MB</p><input type="file" id="file" accept=".pdf" style="display: none;"></div></div>
+                        <div class="form-group" id="urlInputGroup" style="display: none;"><label for="url">Resource URL *</label><input type="url" id="url" placeholder="https://..."></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fas fa-upload"></i> Upload Resource</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="myUploadsSectionTab" style="display: none;">
+                <div class="dashboard-header"><h1>My Uploads</h1><p>View and manage your uploaded resources</p></div>
+                <div id="myUploadsGrid" class="resources-grid"><div class="loading"><i class="fas fa-spinner fa-spin"></i><p>Loading your resources...</p></div></div>
+            </div>
+
+            <div class="tab-content" id="moderateSectionTab" style="display: none;">
+                <div class="dashboard-header"><h1>Moderate Resources</h1><p>Review and approve pending resources</p></div>
+                <div id="pendingResources"><div class="loading"><i class="fas fa-spinner fa-spin"></i><p>Loading pending resources...</p></div></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer"><div class="footer-content"><p>&copy; 2026 Resource Sharing Platform. All rights reserved.</p></div></footer>
+    <div id="toast" class="toast"></div>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js?v=9"></script>
+</body>
+</html>
