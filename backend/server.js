@@ -50,6 +50,7 @@ const connectionString = (process.env.MONGO_URI || process.env.MONGODB_URI || 'm
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of hanging
 })
 .then(() => {
   console.log('✅ MongoDB connected successfully');
