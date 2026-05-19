@@ -10,6 +10,11 @@ async function apiCall(endpoint, method = 'GET', data = null, includeAuth = true
         'Content-Type': 'application/json',
     };
 
+    const token = localStorage.getItem('token');
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
     const options = {
         method,
         headers,
@@ -37,10 +42,17 @@ async function apiCall(endpoint, method = 'GET', data = null, includeAuth = true
 
 // Helper function for file uploads
 async function apiUpload(endpoint, formData) {
+    const headers = {};
+    const token = localStorage.getItem('token');
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
     try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
             method: 'POST',
             body: formData,
+            headers,
             credentials: 'include'
         });
 

@@ -42,6 +42,28 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport');
 
+// JWT Parsing Middleware (Token-Based Authentication Fallback)
+const jwt = require('jsonwebtoken');
+const User = require('./models/User');
+
+app.use(async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_key_change_in_production_12345');
+      const user = await User.findById(decoded.id);
+      if (user) {
+        req.user = user;
+        req.isAuthenticated = () => true;
+      }
+    }
+  } catch (err) {
+    console.warn('[JWT Fallback] Verification failed:', err.message);
+  }
+  next();
+});
+
 let dbError = null;
 
 const connectionString = (process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/study_platform').trim();

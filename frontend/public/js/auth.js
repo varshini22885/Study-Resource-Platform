@@ -144,6 +144,10 @@ async function submitLogin() {
             password
         }, false);
 
+        if (response.token) {
+            localStorage.setItem('token', response.token);
+        }
+
         showToast('Login successful', 'success');
         window.location.href = response.redirectUrl || 'dashboard.html';
     } catch (error) {
@@ -176,6 +180,10 @@ async function submitRegistration() {
             role
         }, false);
 
+        if (response.token) {
+            localStorage.setItem('token', response.token);
+        }
+
         showToast('Account created successfully', 'success');
         window.location.href = response.redirectUrl || 'dashboard.html';
     } catch (error) {
@@ -188,11 +196,13 @@ async function submitRegistration() {
 async function logout() {
     try {
         await apiCall('/auth/logout', 'POST');
+        localStorage.removeItem('token');
         showToast('Logged out successfully', 'success');
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 1000);
     } catch (error) {
+        localStorage.removeItem('token');
         showToast('Error logging out', 'error');
     }
 }

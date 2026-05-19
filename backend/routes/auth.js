@@ -45,7 +45,15 @@ function sanitizeUser(user) {
   return userObject;
 }
 
+const jwt = require('jsonwebtoken');
+
 function createSessionAndRedirect(req, res, user) {
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET || 'your_jwt_secret_key_change_in_production_12345',
+    { expiresIn: '24h' }
+  );
+
   req.login(user, (err) => {
     if (err) {
       return res.status(500).json({
@@ -61,6 +69,7 @@ function createSessionAndRedirect(req, res, user) {
     return res.json({
       success: true,
       message: 'Authentication successful',
+      token,
       user: sanitizeUser(user),
       redirectUrl: getRoleBasedRedirectUrl(user.role)
     });
