@@ -443,6 +443,10 @@ function showTab(tabName, clickedElement) {
     const sidebar = document.getElementById('sidebar');
     if (sidebar && window.innerWidth <= 768) {
         sidebar.classList.remove('active');
+        const hamburger = document.getElementById('hamburger');
+        if (hamburger) {
+            hamburger.classList.remove('active');
+        }
     }
 }
 

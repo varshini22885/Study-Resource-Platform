@@ -289,6 +289,13 @@ function toggleDropdown() {
 
 function toggleHamburger() {
     const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    
+    if (sidebar) {
+        toggleSidebar();
+        return;
+    }
+    
     const navMenu = document.getElementById('navMenu');
     const userMenu = document.getElementById('userMenu');
     
@@ -307,7 +314,15 @@ function toggleHamburger() {
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     if (sidebar) {
-        sidebar.classList.toggle('active');
+        const isActive = sidebar.classList.toggle('active');
+        const hamburger = document.getElementById('hamburger');
+        if (hamburger) {
+            if (isActive) {
+                hamburger.classList.add('active');
+            } else {
+                hamburger.classList.remove('active');
+            }
+        }
     }
 }
 
