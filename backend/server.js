@@ -12,7 +12,7 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'development') {
   app.set('trust proxy', 1);
 }
 
