@@ -42,6 +42,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport');
 
+let dbError = null;
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/study_platform', {
   useNewUrlParser: true,
@@ -49,9 +51,11 @@ mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://
 })
 .then(() => {
   console.log('✅ MongoDB connected successfully');
+  dbError = null;
 })
 .catch(err => {
   console.error('❌ MongoDB connection error:', err);
+  dbError = err.message;
 });
 
 // Routes
@@ -65,7 +69,8 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'Server is running',
-    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+    dbError: mongoose.connection.readyState === 1 ? null : dbError
   });
 });
 
