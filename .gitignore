@@ -65,3 +65,6 @@ coverage/
 # Ignore all markdown files
 *.md
 **/*.md
+
+# Except README.md
+!README.md
