@@ -107,7 +107,8 @@ function playVideoInModal(url) {
 }
 
 function viewPdfInModal(resourceId) {
-    const backendUrl = `${API_BASE_URL}/resources/${resourceId}/download?inline=true`;
+    const token = localStorage.getItem('token');
+    const backendUrl = `${API_BASE_URL}/resources/${resourceId}/download?inline=true` + (token ? `&token=${encodeURIComponent(token)}` : '');
 
     const modal = document.createElement('div');
     modal.className = 'modal active';
