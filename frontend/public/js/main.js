@@ -110,7 +110,14 @@ async function downloadResource(resourceId) {
         const disposition = response.headers.get('Content-Disposition');
         let filename = 'download.pdf';
         if (disposition && disposition.includes('filename=')) {
-            filename = disposition.split('filename=')[1].replace(/"/g, '');
+            const match = disposition.match(/filename=(?:"([^"]+)"|([^;]+))/);
+            if (match) {
+                filename = match[1] || match[2];
+            }
+        }
+        filename = filename.trim();
+        if (!filename.toLowerCase().endsWith('.pdf')) {
+            filename += '.pdf';
         }
 
         // Get the blob and trigger download

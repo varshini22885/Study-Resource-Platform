@@ -459,6 +459,7 @@ exports.downloadResource = async (req, res) => {
         const disposition = req.query.inline === 'true' ? 'inline' : 'attachment';
         res.setHeader('Content-Disposition', `${disposition}; filename="${resource.title}.pdf"`);
         res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
         
         // Determine if URL is https or http
         const protocol = resource.url.startsWith('https') ? https : http;
